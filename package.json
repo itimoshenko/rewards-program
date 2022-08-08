@@ -21,7 +21,9 @@
       "test:watch": "jest --watch",
       "test:cov": "jest --coverage",
       "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-      "test:e2e": "jest --config ./test/jest-e2e.json"
+      "test:e2e": "jest --config ./test/jest-e2e.json",
+      "docker:build": "docker build -t rewards-program .",
+      "docker:compose": "docker-compose up --build -V"
    },
    "dependencies": {
       "@nestjs/common": "^9.0.0",
