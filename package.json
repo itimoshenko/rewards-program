@@ -24,7 +24,8 @@
       "test:e2e": "jest --config ./test/jest-e2e.json",
       "docker:build": "docker build -t rewards-program .",
       "docker:compose": "docker-compose up --build -V",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "typeorm": "typeorm-ts-node-commonjs",
+      "seed": "ts-node ./src/seed/seed.ts"
    },
    "dependencies": {
       "@nestjs/common": "^9.0.0",
