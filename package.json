@@ -67,9 +67,10 @@
       "typescript": "4.5.2"
    },
    "jest": {
+      "clearMocks": true,
+      "restoreMocks": true,
       "moduleFileExtensions": [
          "js",
-         "json",
          "ts"
       ],
       "rootDir": "src",
@@ -78,9 +79,18 @@
          "^.+\\.(t|j)s$": "ts-jest"
       },
       "collectCoverageFrom": [
-         "**/*.(t|j)s"
+         "**/*.ts"
       ],
       "coverageDirectory": "../coverage",
-      "testEnvironment": "node"
+      "testEnvironment": "node",
+      "coveragePathIgnorePatterns": [
+         "/node_modules/",
+         "data-source.ts",
+         "main.ts",
+         "src/migrations/",
+         "src/seed",
+         ".+\\.entity\\.ts",
+         ".+\\.module\\.ts"
+      ]
    }
 }

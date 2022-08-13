@@ -35,13 +35,14 @@ export class RewardsService {
    *
    * @returns {Date}
    */
-  private static getMonthFirstDay() {
+  public static getMonthFirstDay() {
     const date = new Date();
 
     date.setUTCDate(1);
     date.setUTCHours(0);
     date.setMinutes(0);
     date.setUTCSeconds(0);
+    date.setMilliseconds(0);
 
     return date;
   }
@@ -53,8 +54,18 @@ export class RewardsService {
    *
    * @returns {number}
    */
-  private static getRewardFromAmount(amount: number) {
-    return amount - 50 + (amount - 100);
+  public static getRewardFromAmount(amount: number) {
+    const truncedAmount = Math.trunc(amount);
+
+    if (truncedAmount <= 50) {
+      return 0;
+    }
+
+    if (truncedAmount <= 100) {
+      return truncedAmount - 50;
+    }
+
+    return truncedAmount - 50 + (truncedAmount - 100);
   }
 
   /**
@@ -64,8 +75,8 @@ export class RewardsService {
    *
    * @returns {Rewards}
    */
-  private static getRewardsFromPayments(payments: DBPaymentRecord[]): Rewards {
-    const result = payments.reduce((aggregation: Rewards, payment) => {
+  public static getRewardsFromPayments(payments: DBPaymentRecord[]): Rewards {
+    return payments.reduce((aggregation: Rewards, payment) => {
       if (!aggregation[payment.customerId]) {
         aggregation[payment.customerId] = {
           lastMonth: 0,
@@ -90,10 +101,9 @@ export class RewardsService {
           RewardsService.getRewardFromAmount(payment.amount)
         ).toFixed(2),
       );
+
       return aggregation;
     }, {});
-
-    return result;
   }
 
   /**
@@ -102,19 +112,15 @@ export class RewardsService {
    * @returns {Promise<Rewards>}
    */
   async getAll(): Promise<Rewards> {
-    try {
-      const paymentsForLastThreeMonths = (await this.dataSource
-        .createQueryBuilder()
-        .select('*')
-        .from(Payment, 'payment')
-        .where(
-          `payment.date > (select date_trunc('month', current_date) - INTERVAL '2 MONTHs')`,
-        )
-        .execute()) as DBPaymentRecord[];
+    const paymentsForLastThreeMonths = (await this.dataSource
+      .createQueryBuilder()
+      .select('*')
+      .from(Payment, 'payment')
+      .where(
+        `payment.date > (select date_trunc('month', current_date) - INTERVAL '2 MONTHs')`,
+      )
+      .execute()) as DBPaymentRecord[];
 
-      return RewardsService.getRewardsFromPayments(paymentsForLastThreeMonths);
-    } catch (e) {
-      return [];
-    }
+    return RewardsService.getRewardsFromPayments(paymentsForLastThreeMonths);
   }
 }
