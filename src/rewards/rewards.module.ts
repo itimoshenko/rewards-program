@@ -12,4 +12,7 @@ import { RewardsService } from './rewards.service';
   controllers: [RewardsController],
   providers: [RewardsService],
 })
+/**
+ * Module providing methods for rewards
+ */
 export class RewardsModule {}

@@ -2,9 +2,28 @@ import { AppDataSource } from '../data-source';
 import { Customer } from '../entities/customer.entity';
 import { Payment } from '../entities/payment.entity';
 
+/**
+ * Returns Customers for seed
+ *
+ * @returns {Customer[]}
+ */
+type GetCustomers = () => Customer[];
+/**
+ * Returns Payments for seed
+ *
+ * @returns {Payment[]}
+ */
+type GetPayments = (customer: Customer) => Payment[];
+
+/**
+ * Seed initial data to database
+ *
+ * @param getCustomers - Should returns Customers for seed
+ * @param getPayments - Should returns Payments for seed
+ */
 export const seed = async (
-  getCustomers: () => Customer[],
-  getPayments: (customer: Customer) => Payment[],
+  getCustomers: GetCustomers,
+  getPayments: GetPayments,
 ) => {
   const dataSource = await AppDataSource.initialize();
 

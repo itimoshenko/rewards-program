@@ -4,9 +4,13 @@ import {
   HttpHealthIndicator,
   HealthCheck,
   TypeOrmHealthIndicator,
+  HealthCheckResult,
 } from '@nestjs/terminus';
 
 @Controller('health')
+/**
+ * Controller providing health check methods
+ */
 export class HealthController {
   constructor(
     private health: HealthCheckService,
@@ -16,7 +20,12 @@ export class HealthController {
 
   @Get('service')
   @HealthCheck()
-  checkRewardService() {
+  /**
+   * Returns the result of the rewards service health check
+   *
+   * @returns {Promise<HealthCheckResult>}
+   */
+  checkRewardService(): Promise<HealthCheckResult> {
     return this.health.check([
       () => this.http.pingCheck('rewards', process.env.HEALTH_SERVICE_URL),
     ]);
@@ -24,7 +33,12 @@ export class HealthController {
 
   @Get('database')
   @HealthCheck()
-  checkDataBase() {
+  /**
+   * Returns the result of the rewards database health check
+   *
+   * @returns {Promise<HealthCheckResult>}
+   */
+  checkDatabase() {
     return this.health.check([
       () => this.db.pingCheck(process.env.DB_DATABASE_NAME),
     ]);

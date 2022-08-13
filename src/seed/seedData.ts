@@ -1,3 +1,6 @@
+/**
+ * Defined Customers for seed
+ */
 export const customers = [
   {
     id: 1,
@@ -16,6 +19,9 @@ export const customers = [
   },
 ];
 
+/**
+ * Defined Payments for seed
+ */
 export const payments = [
   {
     amount: 2225.98,

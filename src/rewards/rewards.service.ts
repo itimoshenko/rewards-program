@@ -3,21 +3,38 @@ import { DataSource } from 'typeorm';
 
 import { Payment } from '../entities/payment.entity';
 
+/**
+ * Payment database record interface
+ */
 interface DBPaymentRecord extends Omit<Payment, 'customer'> {
   customerId: number;
 }
 
+/**
+ * Reward interface
+ */
 interface Reward {
   lastMonth: number;
   lastThreeMonths: number;
 }
 
-type Rewards = Record<number, Reward>;
+/**
+ * Rewards aggregation interface
+ */
+export type Rewards = Record<number, Reward>;
 
 @Injectable()
+/**
+ * Service providing methods for rewards
+ */
 export class RewardsService {
   constructor(private dataSource: DataSource) {}
 
+  /**
+   * Returns the date that is the first day of the month
+   *
+   * @returns {Date}
+   */
   private static getMonthFirstDay() {
     const date = new Date();
 
@@ -29,10 +46,24 @@ export class RewardsService {
     return date;
   }
 
+  /**
+   * Returns the calculated reward by amount
+   *
+   * @param amount
+   *
+   * @returns {number}
+   */
   private static getRewardFromAmount(amount: number) {
     return amount - 50 + (amount - 100);
   }
 
+  /**
+   * Returns the aggregation by customers which contain rewards for the last month and the last three months
+   *
+   * @param payments
+   *
+   * @returns {Rewards}
+   */
   private static getRewardsFromPayments(payments: DBPaymentRecord[]): Rewards {
     const result = payments.reduce((aggregation: Rewards, payment) => {
       if (!aggregation[payment.customerId]) {
@@ -65,6 +96,11 @@ export class RewardsService {
     return result;
   }
 
+  /**
+   * Returns the aggregation by customers which contain rewards for the last month and the last three months
+   *
+   * @returns {Promise<Rewards>}
+   */
   async getAll(): Promise<Rewards> {
     try {
       const paymentsForLastThreeMonths = (await this.dataSource
