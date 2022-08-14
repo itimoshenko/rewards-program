@@ -11,7 +11,7 @@
    "scripts": {
       "prebuild": "rimraf dist",
       "build": "nest build",
-      "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+      "format": "prettier --write \"src/**/*.ts\"",
       "start": "ts-node src/index.ts",
       "start:dev": "nest start --watch",
       "start:debug": "nest start --debug 0.0.0.0:9229 --watch",
@@ -21,9 +21,7 @@
       "test:watch": "jest --watch",
       "test:cov": "jest --coverage",
       "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-      "test:e2e": "jest --config ./test/jest-e2e.json",
-      "docker:build": "docker build -t rewards-program .",
-      "docker:compose": "docker-compose up --build -V",
+      "docker:compose": "docker-compose up",
       "typeorm": "typeorm-ts-node-commonjs",
       "seed": "ts-node ./src/seed/definedSeed.ts",
       "randomSeed": "ts-node ./src/seed/randomSeed.ts"

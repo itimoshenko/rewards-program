@@ -4,14 +4,46 @@
 
 Service for rewards program to customers awarding points based on each recorded purchase.
 
-## Installation
+## Getting Started
+
+- [Install Node.js](https://nodejs.org/en/download/)
+- [Install Docker](https://www.docker.com/products/docker-desktop/)
+
+```bash
+# step 1: create and start containers
+$ npm run docker:compose
+
+# step 2: install development dependencies
+npm install --only=development
+
+# step 3: run migrations
+$ npm run typeorm -- migration:run -d ./src/data-source.ts
+
+# step 4: seed initial data for database
+$ npm run seed
+```
+
+- service will be available on port 3000
+- pgadmin will be available on port 5050
+
+## Docker
+
+```bash
+# create containers
+$ npm run docker:compose -- --no-start
+
+# create and start containers
+$ npm run docker:compose
+```
+
+## Installation for development on a local machine
 
 ```bash
 # install dependencies
 $ npm install
 ```
 
-## Running the app
+## Running the app for development on a local machine
 
 ```bash
 # development
@@ -24,27 +56,30 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Seeding initial data
+
+```bash
+# seed initial data for database
+$ npm run seed
+
+# generate and seed initial data for database
+$ npm run randomSeed
+```
+
 ## Migrations
 
 ```bash
-# generate migration on entities changes
-$ npm run typeorm -- migration:generate ./src/migrations/MIGRATION_NAME -d ./src/data-source.ts
-
-# create migration
-$ npm run typeorm -- migration:create ./src/migrations/MIGRATION_NAME
-
 # run migration
 $ npm run typeorm -- migration:run -d ./src/data-source.ts
 
 # revert migration
 $ npm run typeorm -- migration:revert -d ./src/data-source.ts
-```
 
-## Seed
+# generate migration on entities changes
+$ npm run typeorm -- migration:generate ./src/migrations/MIGRATION_NAME -d ./src/data-source.ts
 
-```bash
-# generete initial data for DB
-$ npm run seed
+# create migration
+$ npm run typeorm -- migration:create ./src/migrations/MIGRATION_NAME
 ```
 
 ## Test
@@ -52,9 +87,6 @@ $ npm run seed
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
