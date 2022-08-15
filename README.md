@@ -23,7 +23,7 @@ $ npm run typeorm -- migration:run -d ./src/data-source.ts
 $ npm run seed
 ```
 
-- service will be available on port 3000
+- service will be available on port 3000, Swagger will be available on /api route
 - pgadmin will be available on port 5050
 
 ## Docker
